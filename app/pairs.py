@@ -1,16 +1,9 @@
 def pick_from_pairs(arr, num_weeks):
     weeks = []
-    # For week i, let the [i-1 % len(arr)]th person in the array be the solo
-    # week 1 -> arr[0] will be solo: 1-1 % 5 = 0
-    # week 2 -> arr[1] will be solo: 2-1 % 5 = 1
-    # week 5 -> arr[4] will be solo
-    # week 6 -> arr[0] will be solo: 6-1 % 5 = 0
-    # week 7 -> arr[1] will be solo: 7-1 % 5 = 1
     for i in range(num_weeks):
         week = []
         arr = arr[-1:] + arr[:len(arr) - 1] # rotate right by 1
-        week.append((arr[0]))
-        # week.append((arr[i % len(arr)])) # pick a solo
+        week.append((arr[0])) # pick a solo
         for person in arr:  # pick the remaining pairs for the week
             if already_picked_for_the_week(person, week):
                 continue

@@ -1,9 +1,12 @@
+import argparse
+from utilities import read_json_file, write_to_file, print_output
+
 def pick_from_pairs(arr, num_weeks):
     weeks = []
     for i in range(num_weeks):
         week = []
         arr = arr[-1:] + arr[:len(arr) - 1] # rotate right by 1
-        week.append((arr[0])) # pick a solo
+        week.append((arr[0],)) # pick a solo
         for person in arr:  # pick the remaining pairs for the week
             if already_picked_for_the_week(person, week):
                 continue
@@ -47,10 +50,14 @@ def already_picked_for_the_week(person, week_pairings):
                 return True
     return False
 
-weeks = pick_from_pairs(['a', 'b', 'c', 'd', 'e'], 12)
-for week in weeks:
-    for pair in week:
-        if len(pair) == 1:
-            print(pair[0])
-        else:
-            print(f"{pair[0]}, {pair[1]}")
+def main(args):
+    employee_data = read_json_file("app/employees.json")
+    weeks = pick_from_pairs(employee_data, args.num_weeks)
+    print_output(weeks)
+    write_to_file(weeks)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Employee Scheduler')
+    parser.add_argument('num_weeks', type=int, help='Number of weeks to schedule for')
+    args = parser.parse_args()
+    main(args)

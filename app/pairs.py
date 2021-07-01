@@ -1,5 +1,29 @@
 import argparse
-from utilities import read_json_file, write_to_file, print_output
+from app.utilities import read_json_file, write_to_file, print_output
+
+def get_all_distinct_pairings(arr):
+    if len(arr) == 1:
+        return [(arr[0],)]
+    if len(arr) == 2:
+        return [[(arr[0],arr[1])]]
+    if len(arr) % 2 == 1:
+        all_pairings = []
+        for i in range(len(arr)):
+            all_pairings = all_pairings + [[(arr[i],)] + pairing for pairing in get_all_distinct_pairings(arr[:i] + arr[i+1:])]
+        return all_pairings
+    else:
+        all_pairings = []
+        for i in range(1, len(arr)):
+            all_pairings = all_pairings + [[(arr[0], arr[i])] + pairing for pairing in get_all_distinct_pairings(arr[1:i] + arr[i+1:])]
+        return all_pairings
+
+# def pick_from_pairs2(arr, num_weeks):
+#     all_distinct_weeks = get_all_distinct_pairings(arr)
+#     optimal_weeks = []
+#     all_distinct_weeks_copy = all_distinct_weeks[:]
+#     index = 0
+#     while len(all_distinct_weeks_copy) > 0:
+#
 
 def pick_from_pairs(arr, num_weeks):
     weeks = []
@@ -51,13 +75,14 @@ def already_picked_for_the_week(person, week_pairings):
     return False
 
 def main(args):
-    employee_data = read_json_file("app/employees.json")
+    employee_data = read_json_file(args.employees_info)
     weeks = pick_from_pairs(employee_data, args.num_weeks)
     print_output(weeks)
     write_to_file(weeks)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Employee Scheduler')
+    parser = argparse.ArgumentParser(description='Employee Pair Programming Scheduler')
+    parser.add_argument('employees_info', type=str, help='Employee information in JSON format')
     parser.add_argument('num_weeks', type=int, help='Number of weeks to schedule for')
     args = parser.parse_args()
     main(args)

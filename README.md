@@ -6,11 +6,15 @@
 
 `python -m pytest`
 
+#### To test with coverage_schema
+`coverage run -m pytest`
+`coverage report -m`
+
 
 #### To Run
 
-`python app/pairs.py 12`
+`python app/pairs.py app/employees.json 12`
 
-12 is the number of weeks to schedule for.
+12 is the number of weeks
 
-It will print the schedule as well as save the schedule to `app/output.txt`
+The output will be printed as well as saved to app/output.txt

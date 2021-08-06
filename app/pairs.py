@@ -17,13 +17,19 @@ def get_all_distinct_pairings(arr):
             all_pairings = all_pairings + [[(arr[0], arr[i])] + pairing for pairing in get_all_distinct_pairings(arr[1:i] + arr[i+1:])]
         return all_pairings
 
-# def pick_from_pairs2(arr, num_weeks):
+# def pick_optimal_pairings(arr, num_weeks):
 #     all_distinct_weeks = get_all_distinct_pairings(arr)
 #     optimal_weeks = []
 #     all_distinct_weeks_copy = all_distinct_weeks[:]
 #     index = 0
-#     while len(all_distinct_weeks_copy) > 0:
-#
+#     while optimal_weeks < num_weeks:
+#         for i in range(len(all_distinct_weeks)):
+#             for pair in all_distinct_weeks_copy[i]:
+#                 if pair_is_recent(pair, optimal_weeks, 3):
+#                     continue
+#         continue
+#     return optimal_weeks
+
 
 def pick_from_pairs(arr, num_weeks):
     weeks = []
